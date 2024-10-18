@@ -15,7 +15,7 @@ namespace HomeworkWending.Types.Interfaces
 
         void TakeCoin(CoinType coin);
         void TakeBanknote(BanknoteType banknote);
-        void Repair();
-        int DropChange(int amount);
+        void Repair(int firstValue, int secondValue, int thirdValue, int fourthValue);
+        void DropChange(int amount);
     }
 }
