@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeworkVendingCool.Types.Errors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,10 +30,20 @@ namespace HomeworkVendingCool.Types
                 return;
             }
             CoffeeReceipt current = CoffeeReceipts[index];
-            if (current.WaterConsumption > WaterAmount || current.MilkConsumption > MilkAmount || current.CoffeeConsumption > CoffeeAmount) { 
-                Console.WriteLine($"В автомате не хватает ингредиентов чтобы сделать {current.Name}");
-                return; 
+
+            if (current.WaterConsumption > WaterAmount) { 
+                throw new NotEnoughWaterException(current.WaterConsumption - WaterAmount, current.Name);
             }
+            if (current.MilkConsumption > MilkAmount)
+            {
+                throw new NotEnoughMilkException(current.MilkConsumption - MilkAmount, current.Name);
+            }
+            if (current.CoffeeConsumption > CoffeeAmount)
+            {
+                throw new NotEnoughCoffeeException(current.CoffeeConsumption - CoffeeAmount, current.Name);
+            }
+
+
             if (isNeedSugar)
             {
                 if (current.SugarConsumption > SugarAmount)
