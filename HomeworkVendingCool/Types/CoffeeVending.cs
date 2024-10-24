@@ -21,13 +21,22 @@ namespace HomeworkVendingCool.Types
         public CoffeeVending(List<CoffeeReceipt> coffeeReceipts)
         {
             CoffeeReceipts = coffeeReceipts;
+            Refill();
+        }
+        public void PrintReceipts()
+        {
+            int i = 1;
+            foreach (CoffeeReceipt receipt in CoffeeReceipts)
+            {
+                Console.WriteLine($"[{i}]:: {receipt}");
+            }
         }
 
         public void Buy(int index, bool isNeedSugar)
         {
+            index--;
             if (index >= CoffeeReceipts.Count) { 
-                Console.WriteLine("Такого кофе не существует!"); 
-                return;
+                throw new ReceiptDoesNotExistsException($"Рецепта с индексом {index} не существует!");
             }
             CoffeeReceipt current = CoffeeReceipts[index];
 
@@ -48,15 +57,13 @@ namespace HomeworkVendingCool.Types
             {
                 if (current.SugarConsumption > SugarAmount)
                 {
-                    Console.WriteLine($"Не хватает сахара чтобы сделать {current.Name}");
-                    throw new Exception("");
+                    throw new NotEnoughSugarException(current.SugarConsumption - SugarAmount, current.Name);
                 }
                 SugarAmount -= current.SugarConsumption;
             }
             if (current.Price > _userInsertedAmount)
             {
-                Console.WriteLine($"Вы внесли недостаточно денег! Вам не хватает {current.Price - _userInsertedAmount} рублей!");
-                return;
+                throw new NotEnoughMoneyException(current.Price - _userInsertedAmount, current.Name);
             }
             _userInsertedAmount -= current.Price;
             TotalSales += current.Price;
@@ -64,6 +71,7 @@ namespace HomeworkVendingCool.Types
             MilkAmount -= current.MilkConsumption;
             CoffeeAmount -= current.CoffeeConsumption;
             Console.WriteLine($"Вот ваш {current.Name}");
+            CalculateChange();
         }
 
         public void CalculateChange()
@@ -92,6 +100,17 @@ namespace HomeworkVendingCool.Types
                 case BanknoteType.FiveThousandRubles:
                     _userInsertedAmount += 5000; break;
             }
+        }
+        public void Refill()
+        {
+            WaterAmount = CoffeeVendingOptions.MaxAmountOfWater;
+            SugarAmount = CoffeeVendingOptions.MaxAmountOfSugar;
+            MilkAmount = CoffeeVendingOptions.MaxAmountOfMilk;
+            CoffeeAmount = CoffeeVendingOptions.MaxAmountOfCoffee;
+        }
+        public int GetBalance()
+        {
+            return _userInsertedAmount;
         }
     }
 }

@@ -8,13 +8,13 @@ namespace HomeworkVendingCool.Types
 {
     static class CoffeeVendingOptions
     {
-        const double MaxAmountOfWater = 5;
-        const double MaxAmountOfMilk = 4;
-        const double MaxAmountOfCoffee = 4;
-        const double MaxAmountOfSugar = 1;
+        public const double MaxAmountOfWater = 5;
+        public const double MaxAmountOfMilk = 4;
+        public const double MaxAmountOfCoffee = 4;
+        public const double MaxAmountOfSugar = 1;
         public const double MaxCupCapacity = .2;
 
-        static List<CoffeeReceipt> GetDefaultReceipts()
+        public static List<CoffeeReceipt> GetDefaultReceipts()
         {
             return new List<CoffeeReceipt>
             {

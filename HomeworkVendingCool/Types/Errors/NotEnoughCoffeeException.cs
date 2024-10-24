@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace HomeworkVendingCool.Types.Errors
 {
-    class NotEnoughWaterException : Exception
+    class NotEnoughCoffeeException : Exception
     {
         public double NotEnough { get; private set;  }
         public string? Provider { get; private set; }
 
-        public NotEnoughWaterException(double message, string? provider)
+        public NotEnoughCoffeeException(double message, string? provider)
         {
             NotEnough = message;
             Provider = provider;
         }
-        public NotEnoughWaterException()
+        public NotEnoughCoffeeException()
         {
             NotEnough = 0;
             Provider = null;

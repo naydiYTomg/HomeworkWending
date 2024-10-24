@@ -17,13 +17,17 @@ namespace HomeworkVendingCool.Types
 
         public CoffeeReceipt(string? name, int price, double waterConsumption, double milkConsumption, double coffeeConsumption, double sugarConsumption)
         {
-            if (waterConsumption + milkConsumption + coffeeConsumption != CoffeeVendingOptions.MaxCupCapacity) throw new ArgumentException($"Общий объём ингридиентов не должен превосходить {CoffeeVendingOptions.MaxCupCapacity*1000}мл!");
+            if (waterConsumption + milkConsumption + coffeeConsumption > CoffeeVendingOptions.MaxCupCapacity) throw new ArgumentException($"Общий объём ингридиентов не должен превосходить {CoffeeVendingOptions.MaxCupCapacity*1000}мл!");
             Name = name;
             Price = price;
             WaterConsumption = waterConsumption;
             MilkConsumption = milkConsumption;
             CoffeeConsumption = coffeeConsumption;
             SugarConsumption = sugarConsumption;
+        }
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

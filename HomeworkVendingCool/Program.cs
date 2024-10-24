@@ -1,10 +1,14 @@
-﻿namespace HomeworkVendingCool
+﻿using HomeworkVendingCool.Types;
+
+namespace HomeworkVendingCool
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            CLI cli = new CLI();
+            cli.SetEnvironment(CoffeeVendingOptions.GetDefaultReceipts());
+            cli.Run();
         }
     }
 }
