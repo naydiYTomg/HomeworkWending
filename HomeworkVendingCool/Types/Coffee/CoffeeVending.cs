@@ -5,42 +5,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HomeworkVendingCool.Types
+namespace HomeworkVendingCool.Types.Coffee
 {
-    class CoffeeVending
+    class CoffeeVending : AbstractVendingMachine<CoffeeReceipt>
     {
         public double WaterAmount { get; private set; }
         public double MilkAmount { get; private set; }
         public double CoffeeAmount { get; private set; }
         public double SugarAmount { get; private set; }
-        public int TotalSales { get; private set; } = 0;
-        private List<CoffeeReceipt> CoffeeReceipts { get; set; }
+        public override int TotalSales { get; protected set; } = 0;
+        protected override List<CoffeeReceipt> _receipts { get; }
 
         private int _userInsertedAmount = 0;
 
-        public CoffeeVending(List<CoffeeReceipt> coffeeReceipts)
+        public CoffeeVending(List<CoffeeReceipt> coffeeReceipts) : base(coffeeReceipts)
         {
-            CoffeeReceipts = coffeeReceipts;
+            _receipts = coffeeReceipts;
             Refill();
         }
-        public void PrintReceipts()
+        override public void PrintReceipts()
         {
             int i = 1;
-            foreach (CoffeeReceipt receipt in CoffeeReceipts)
+            foreach (CoffeeReceipt receipt in _receipts)
             {
                 Console.WriteLine($"[{i}]:: {receipt}");
+                i++;
             }
         }
 
-        public void Buy(int index, bool isNeedSugar)
+        public override void Buy(int index, params object[] args)
         {
+            if (args.Length > 1) throw new Exception("Слишком много параметров!");
+            if (args[0].GetType() != typeof(bool)) throw new Exception("Аргумент должен быть типа bool!");
             index--;
-            if (index >= CoffeeReceipts.Count) { 
+            if (index >= _receipts.Count)
+            {
                 throw new ReceiptDoesNotExistsException($"Рецепта с индексом {index} не существует!");
             }
-            CoffeeReceipt current = CoffeeReceipts[index];
+            CoffeeReceipt current = _receipts[index];
 
-            if (current.WaterConsumption > WaterAmount) { 
+            if (current.WaterConsumption > WaterAmount)
+            {
                 throw new NotEnoughWaterException(current.WaterConsumption - WaterAmount, current.Name);
             }
             if (current.MilkConsumption > MilkAmount)
@@ -53,7 +58,7 @@ namespace HomeworkVendingCool.Types
             }
 
 
-            if (isNeedSugar)
+            if ((bool)args[0] == true)
             {
                 if (current.SugarConsumption > SugarAmount)
                 {
@@ -78,14 +83,14 @@ namespace HomeworkVendingCool.Types
         {
             Console.WriteLine($"Вот ваша сдача: {_userInsertedAmount}");
             _userInsertedAmount = 0;
-            
+
         }
 
-        public void ConsumeBanknote(BanknoteType banknote)
+        public override void TakeBanknote(BanknoteType banknote)
         {
             switch (banknote)
             {
-                case BanknoteType.FiftyRubles: 
+                case BanknoteType.FiftyRubles:
                     _userInsertedAmount += 50; break;
                 case BanknoteType.HundredRubles:
                     _userInsertedAmount += 100; break;
@@ -101,7 +106,7 @@ namespace HomeworkVendingCool.Types
                     _userInsertedAmount += 5000; break;
             }
         }
-        public void Refill()
+        public override void Refill()
         {
             WaterAmount = CoffeeVendingOptions.MaxAmountOfWater;
             SugarAmount = CoffeeVendingOptions.MaxAmountOfSugar;
@@ -110,7 +115,13 @@ namespace HomeworkVendingCool.Types
         }
         public int GetBalance()
         {
+            
             return _userInsertedAmount;
         }
+        public override string ToString()
+        {
+            return "Автомат для кофе";
+        }
+
     }
 }

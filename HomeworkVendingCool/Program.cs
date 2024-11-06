@@ -1,4 +1,4 @@
-﻿using HomeworkVendingCool.Types;
+﻿using HomeworkVendingCool.Types.Coffee;
 
 namespace HomeworkVendingCool
 {
