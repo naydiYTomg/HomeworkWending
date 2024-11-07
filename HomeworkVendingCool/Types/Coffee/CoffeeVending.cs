@@ -113,7 +113,7 @@ namespace HomeworkVendingCool.Types.Coffee
             MilkAmount = CoffeeVendingOptions.MaxAmountOfMilk;
             CoffeeAmount = CoffeeVendingOptions.MaxAmountOfCoffee;
         }
-        public int GetBalance()
+        public override int GetBalance()
         {
             
             return _userInsertedAmount;
@@ -121,6 +121,14 @@ namespace HomeworkVendingCool.Types.Coffee
         public override string ToString()
         {
             return "Автомат для кофе";
+        }
+
+        public override bool IsNeedRepair()
+        {
+            return WaterAmount == CoffeeVendingOptions.MaxAmountOfWater 
+                || CoffeeAmount == CoffeeVendingOptions.MaxAmountOfCoffee 
+                || MilkAmount == CoffeeVendingOptions.MaxAmountOfMilk 
+                || SugarAmount == CoffeeVendingOptions.MaxAmountOfSugar;
         }
 
     }

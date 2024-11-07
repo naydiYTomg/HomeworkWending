@@ -27,6 +27,10 @@ namespace HomeworkVendingCool.Types
         public abstract void Buy(int index, params object[] args);
         public abstract void TakeBanknote(BanknoteType banknote);
         public abstract void Refill();
-        public virtual int GetTotalSales() { return TotalSales; }
+        public virtual int GetTotalSales() { TotalSales = 0; return TotalSales;  }
+
+        public abstract int GetBalance();
+
+        public abstract bool IsNeedRepair();
     }
 }

@@ -1,4 +1,5 @@
-﻿using HomeworkVendingCool.Types.Coffee;
+﻿using HomeworkVendingCool.Types;
+using HomeworkVendingCool.Types.Coffee;
 
 namespace HomeworkVendingCool
 {
@@ -6,8 +7,8 @@ namespace HomeworkVendingCool
     {
         static void Main(string[] args)
         {
-            CLI cli = new CLI();
-            cli.SetEnvironment(CoffeeVendingOptions.GetDefaultReceipts());
+            CLI<AbstractVendingMachine<IReceipt>> cli = new();
+            cli.SetEnvironment();
             cli.Run();
         }
     }

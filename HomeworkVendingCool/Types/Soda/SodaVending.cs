@@ -63,6 +63,10 @@ namespace HomeworkVendingCool.Types.Soda
                 receipt.Refill();
             }
         }
+        public override int GetBalance()
+        {
+            return _userInsertedAmount;
+        }
         public override void TakeBanknote(BanknoteType banknote)
         {
             switch (banknote)
@@ -86,6 +90,15 @@ namespace HomeworkVendingCool.Types.Soda
         public override string ToString()
         {
             return "Автомат для газировки";
+        }
+        public override bool IsNeedRepair()
+        {
+            bool returnValue = false;
+            foreach(SodaReceipt receipt in _receipts)
+            {
+                if (receipt.RemainsOfThisReceipt != SodaVendingOptions.MaxAmountOfSodaCans) returnValue = true;
+            }
+            return returnValue;
         }
     }
 }
